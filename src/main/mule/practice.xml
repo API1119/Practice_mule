@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+	xmlns:jms="http://www.mulesoft.org/schema/mule/jms"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="8db24333-e769-46ad-a3a6-2cd9b2159634" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="18e25696-e820-4baf-91e3-9a1fd05980c3" >
+		<http:request-connection host="localhost" port="8081" />
+	</http:request-config>
+	<http:request-config name="HTTP_Request_configuration1" doc:name="HTTP Request configuration" doc:id="2c64e71d-2e37-4293-8a41-bed2d930d20c" >
+		<http:request-connection host="localhost" port="8081" />
+	</http:request-config>
+	<vm:config name="VM_Config" doc:name="VM Config" doc:id="a921c66c-cd09-4b20-893f-b8b9ad778fb0" >
+		<vm:connection >
+			<reconnection >
+				<reconnect />
+			</reconnection>
+		</vm:connection>
+		<vm:queues >
+			<vm:queue queueName="practiceFlow10" />
+		</vm:queues>
+	</vm:config>
+	<http:request-config name="HTTP_Request_configuration2" doc:name="HTTP Request configuration" doc:id="c2912923-71c7-4221-8ae7-a1fcb3e864b8" >
+		<http:request-connection host="localhsot" port="8081" />
+	</http:request-config>
+	<vm:config name="VM_Config1" doc:name="VM Config" doc:id="9ad80231-ef5f-4513-8622-289821b32edb" >
+		<vm:connection />
+		<vm:queues >
+			<vm:queue queueName="practiceFlow11" />
+		</vm:queues>
+	</vm:config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="28c49a7f-0e23-4414-a7b8-438a6ca2e035" >
+		<db:my-sql-connection host="localhost" port="3306" user="root" database="abc" />
+	</db:config>
+	<http:request-config name="HTTP_Request_configuration3" doc:name="HTTP Request configuration" doc:id="3f7f006c-3714-464d-90d5-a4e0291ef317" >
+		<http:request-connection protocol="HTTPS" host="anypoint.mulesoft.com" >
+			<http:authentication >
+				<http:basic-authentication username="API1119b" password="Ryukendo@5899" />
+			</http:authentication>
+		</http:request-connection>
+	</http:request-config>
+	<flow name="practiceFlow" doc:id="43e1d89f-e57a-4120-9c2e-55e7dc514d4b" >
+		<http:listener doc:name="Listener" doc:id="eb32a152-3d42-42c1-ac4e-6bee4a9a2883" config-ref="HTTP_Listener_config" path="/check"/>
+		<set-payload value="Order-1" doc:name="Set Payload" doc:id="2f60b7d9-4fc8-462d-87af-7c6cc831db96" />
+		<set-variable value="0" doc:name="Set Variable" doc:id="69e7098d-3391-4768-96d3-309d3d4f951b" variableName="var"/>
+		<flow-ref doc:name="Flow Reference" doc:id="7536bcb9-1dc0-458e-ad96-5fd804179578" name="practiceFlow1"/>
+		<logger level="INFO" doc:name="Logger" doc:id="d9a27842-4ee6-460a-84bd-cbb56106f0e7" />
+	</flow>
+	<flow name="practiceFlow1" doc:id="ce000862-c303-43f8-a1c7-a0eb8e546733" >
+		<set-payload value="order-2" doc:name="Set Payload" doc:id="491a8a52-1605-4e78-a646-2b2379536880" />
+		<set-variable value="10" doc:name="Set Variable" doc:id="22392892-0a26-4176-b324-c0f625c02932" variableName="var"/>
+		<logger level="INFO" doc:name="Logger" doc:id="eafd05c8-290d-478c-b2e2-ecc64bfcc715" />
+	</flow>
+	<flow name="practiceFlow2" doc:id="80d26e69-ef5a-4699-853b-1812b2dbd75e" >
+		<http:listener doc:name="Listener" doc:id="1c89d2ee-0874-479b-9ba1-1c89524dbe88" config-ref="HTTP_Listener_config" path="/check2"/>
+		<set-payload value="Begin" doc:name="Set Payload" doc:id="84c192c9-37b2-4404-ac65-7c5234d17992" />
+		<set-variable value="0" doc:name="Set Variable" doc:id="f261e2a4-fc5d-41c0-a3e0-5ee35c4ab8d6" variableName="var1"/>
+		<set-payload value="Processing" doc:name="Set Payload" doc:id="529c70b5-274f-4f21-8099-d084215f5a54" />
+		<set-variable value="10" doc:name="Set Variable" doc:id="42359d1c-f3f2-42ab-953e-3bb6e81dc98a" variableName="var2"/>
+		<set-payload value="end" doc:name="Set Payload" doc:id="0fc9f1ec-9eb5-46df-bf2c-1139a26dcc10" />
+	</flow>
+	<flow name="practiceFlow3" doc:id="72b4bb70-e9df-490f-a0d0-416fed736d9b" >
+		<http:listener doc:name="Listener" doc:id="fd694b72-1d1d-4d49-a521-0a40900e8fc7" config-ref="HTTP_Listener_config" path="/check3"/>
+		<set-payload value='#[["arti"]]' doc:name="Set Payload" doc:id="0ef525d9-d24b-45e9-bcc7-b306ac4a927f" />
+		<foreach doc:name="For Each" doc:id="3959e124-85dd-4f78-a2e0-f12e1e4851bc" >
+			<set-payload value='#[payload ++ "nauriyal"]' doc:name="Set Payload" doc:id="f26326c8-4582-4d15-85ff-7c117c25d7e6" />
+			<set-variable doc:name="Set Variable" doc:id="5f9be011-1bda-44e6-b15d-ff2d8299f25f" variableName="variab" value="#[payload]"/>
+		</foreach>
+		<logger level="INFO" doc:name="Logger" doc:id="726262e4-8dc7-417f-8913-8a1477f00da7" message="#[vars.variab]"/>
+	</flow>
+	<flow name="practiceFlow4" doc:id="a916bfa0-627f-4488-8d2a-dca79804619d" >
+		<http:listener doc:name="Listener" doc:id="0d23a0bd-7c44-45f8-8f71-301559f41da8" config-ref="HTTP_Listener_config" path="/check4"/>
+		<set-payload value="ashu" doc:name="ashu" doc:id="0dfd4e75-58e5-4a05-bc21-a616b23c1d06" />
+		<set-variable value="10" doc:name="variable" doc:id="44e23f8f-37ab-431c-a2a5-4ed70b035780" variableName="variable"/>
+		<http:request method="POST" doc:name="Request" doc:id="93c51224-589f-4ca4-a714-b6786589e8a9" config-ref="HTTP_Request_configuration" path="/check5"/>
+		<logger level="INFO" doc:name="Logger" doc:id="8920d156-08cd-4d5c-a6b7-d073825ab854" />
+	</flow>
+	<flow name="practiceFlow5" doc:id="2d6a70c4-2656-425c-8c17-f817f4cc2d8f" >
+		<http:listener doc:name="Listener" doc:id="22466a1f-c3d5-4ddd-9d01-2b1db50c232b" config-ref="HTTP_Listener_config" path="/check5" allowedMethods="POST"/>
+		<logger level="INFO" doc:name="Logger" doc:id="b06efebc-b4d2-4a79-ab3b-b7c51a055d53" />
+	</flow>
+	<flow name="practiceFlow6" doc:id="86c211f2-bdb7-4681-a51f-553086a21a44" >
+		<http:listener doc:name="Listener" doc:id="77e62b2b-14ea-46c8-87fa-d26846d3e21a" config-ref="HTTP_Listener_config" path="/check6"/>
+		<ee:transform doc:name="Transform Message" doc:id="2b9482f4-67e1-4681-bcd0-f5cb8e5fc89f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+---
+{
+	payload: payload
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<http:request method="POST" doc:name="Request" doc:id="9be0aeac-649c-4862-a942-af8db5768dff" config-ref="HTTP_Request_configuration1" path="/check7" target="theResult"/>
+		<logger level="INFO" doc:name="Logger" doc:id="e5ffac10-1c24-44df-8582-39c1d8cbad6d" message="#[payload]"/>
+	</flow>
+	<flow name="practiceFlow7" doc:id="be392d71-741f-4e0c-a010-cd7b5f72cc1e" >
+		<http:listener doc:name="Listener" doc:id="94963693-796a-46c6-b0b8-de073d032ac8" config-ref="HTTP_Listener_config" path="/check7" allowedMethods="POST"/>
+		<set-payload value="transform into json object" doc:name="Set Payload" doc:id="14c60c7f-d4f5-42e7-b1cd-92ea0b2d30f5" />
+	</flow>
+	<flow name="practiceFlow8" doc:id="d577458c-cd30-4a85-aa15-d654579c5ec9" >
+		<http:listener doc:name="Listener" doc:id="93ef1fc3-8e90-47f7-b50d-d18c19733dd7" config-ref="HTTP_Listener_config" path="/check8"/>
+		<vm:publish doc:name="Publish" doc:id="e49f7153-41fd-4f1d-b31f-5782e8b71f31" config-ref="VM_Config" queueName="practiceFlow10"/>
+		<http:request method="POST" doc:name="Request" doc:id="af506db0-575b-4a91-97d1-9d1bae0beb27" config-ref="HTTP_Request_configuration" path="/check9" responseTimeout="700000000">
+			<http:body ><![CDATA[HELLO]]></http:body>
+		</http:request>
+		<vm:publish-consume doc:name="Publish consume" doc:id="77960c9e-bf92-41c5-b505-34ecc87a1fd8" config-ref="VM_Config1" queueName="practiceFlow11"/>
+		<set-payload value='#[payload as String ++ "Three"]' doc:name="Set Payload" doc:id="bd9cf0ec-474a-4fe5-9922-6754483cd83b" />
+	</flow>
+	<flow name="practiceFlow9" doc:id="ec60efdc-7075-41e7-8d6c-1dab4a2a9e5a" >
+		<http:listener doc:name="Listener" doc:id="112e5867-3bcd-4a34-88d6-c6b9c478eff0" config-ref="HTTP_Listener_config" path="/check9" allowedMethods="POST"/>
+		<set-payload value='#[payload ++ "HTTP"]' doc:name="Set Payload" doc:id="2fba92ab-9df6-46b1-b276-527a70be3d23" />
+	</flow>
+	<flow name="practiceFlow10" doc:id="8b292bbd-0a0d-4051-a0e7-fd6bccdb9aa0" >
+		<vm:listener doc:name="Listener" doc:id="45a49a77-4ce9-4a75-9161-e38c0ea2acf0" config-ref="VM_Config" queueName="practiceFlow10"/>
+		<set-payload value='#[payload ++ "JMS1"]' doc:name="Set Payload" doc:id="ebece5b1-8593-4a21-84fe-6441a9182fee" />
+		<logger level="INFO" doc:name="Logger" doc:id="d27dc2a5-ff27-47cd-a910-1139ec51fa14" message="#[payload]"/>
+	</flow>
+	<flow name="practiceFlow11" doc:id="e9b04e28-cdf0-4a1d-afa9-ac4323e5e65d" >
+		<vm:listener doc:name="Listener" doc:id="262b526c-4d39-48bc-94b1-60fb84d08ec7" config-ref="VM_Config1" queueName="practiceFlow11"/>
+		<set-payload value='#[payload ++ "JMS2"]' doc:name="Set Payload" doc:id="7a190e80-f902-435c-8356-fc2c17962672" />
+	</flow>
+	<flow name="practiceFlow12" doc:id="f83e9d14-1726-4f7b-b8c2-a90dba2e9932" >
+		<http:listener doc:name="Listener" doc:id="e565ff33-45a8-4513-8a07-b18bc00e67ec" config-ref="HTTP_Listener_config" path="/check12"/>
+		<db:select doc:name="Select" doc:id="1f749c33-2aa5-4559-b958-812bfc7b9271" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * FROM employee]]></db:sql>
+		</db:select>
+		<logger level="INFO" doc:name="Logger" doc:id="c04411e6-2833-41a8-8544-f28f461c45bb" message="#[typeOf(payload)]"/>
+		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="4cf5e79d-e973-473f-9ad1-db5e8062db39" />
+	</flow>
+	<flow name="practiceFlow13" doc:id="6dc8217d-2394-4398-951a-f475b5f6b5c8" >
+		<http:listener doc:name="Listener" doc:id="74069540-c557-41de-aa03-596647b689c8" config-ref="HTTP_Listener_config" path="/getToken"/>
+		<http:request method="POST" doc:name="Request" doc:id="610c7db0-7285-43f4-a2de-f6068bbac0d7" config-ref="HTTP_Request_configuration3" path="/accounts/login">
+			<http:body ><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+	"username": "API1119b",
+	"password": "Ryukendo@5899"
+}]]]></http:body>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="87880aea-56d3-4d83-85e3-b0629bb59959" message="#[payload]"/>
+	</flow>
+</mule>
